@@ -1,0 +1,52 @@
+body {
+  background-color: #222222;
+}
+
+div {
+  color: #dddddd;
+}
+
+.output {
+  font-family: monospace;
+  white-space: pre;
+  border: 2px solid red;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 200px;
+  -webkit-animation-name: pulsate;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+}
+
+.cmd {
+  color: black;
+  font-family: monospace;
+  white-space: pre;
+  border: 2px solid blue;
+  background-color: #eeeeff;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+  overflow: hidden;
+}
+
+.finished {
+  border-color: green;
+  -webkit-animation-name: none;
+}
+
+@-webkit-keyframes pulsate {
+  from {
+    opacity: 1.0;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  to {
+    opacity: 1.0;
+  }
+}

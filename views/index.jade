@@ -1,0 +1,50 @@
+!!! 5
+html(lang="en")
+  head
+    title Terminal
+    link(href='style.css',rel='stylesheet',type='text/css')      
+    script(type='text/javascript',src='jquery-1.6.1.min.js')
+    script(type='text/javascript')
+      $(function() {
+        $('#cmd').keypress(function(e) {
+          if(e.keyCode == 13) {
+            $('#submit').click();
+          }
+        });
+        $('#submit').click(function() {
+          var cmd = $('#cmd')[0].value;
+          console.log(cmd);
+          $('#output').append('<div class="cmd">' + cmd + '</cmd>');
+          $('#cmd')[0].value = "";
+          $.ajax({
+            type: 'POST',
+            url: '/commands',
+            data: { cmd: cmd },
+            success: function(data) {
+              console.log(data);
+              $('#output').append('<div class="output" id="output_' + data.commandId + '"></div>');
+              getChunk(data.commandId, 0);
+            }
+          });
+        });
+      });
+      
+      function getChunk(commandId, chunkId) {
+        $.ajax({
+          url: '/command/' + commandId + '/chunk/' + chunkId,
+          success: function(data) {
+            $('#output_' + commandId).append(data.stdout);
+            if(data.running) {
+              getChunk(commandId, chunkId + 1);
+            } else {
+              $('#output_' + commandId).addClass('finished');
+            }
+          }
+        });
+      }
+  body
+    #terminal
+      #output
+      #prompt
+        input(id='cmd',name='cmd',type='text')
+        input(id='submit',type='submit')
